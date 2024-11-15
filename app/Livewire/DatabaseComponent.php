@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Jobs\MigrateAndSeedJob;
 use App\Models\Database;
 use App\Models\Organization;
 use Illuminate\Support\Facades\Artisan;
@@ -13,54 +14,40 @@ class DatabaseComponent extends Component
 {
     public $databases;
     public $organizations;
-    public $organization_id, $db_d, $db_name, $db_host, $db_password, $db_port, $db_prefix;
+    public $organization_id, $db_d, $db_name, $db_host, $db_username, $db_password, $db_port, $db_prefix, $admin_email, $admin_password;
 
     public function store()
     {
         $this->validate([
             'organization_id' => 'required',
             'db_d' => 'required',
-            'db_name' => 'required',
+            'db_name' => 'required|unique:databases,db_name',
             'db_host' => 'required',
-            'db_password' => 'required',
+            'db_username' => 'required',
+            'db_password' => 'nullable',
             'db_port' => 'required',
-            'db_prefix' => 'required',
+            'db_prefix' => 'nullable',
+            'admin_email' => 'required',
+            'admin_password' => 'required',
         ]);
         Database::create([
             'organization_id' => $this->organization_id,
             'db_d' => $this->db_d,
             'db_name' => $this->db_name,
             'db_host' => $this->db_host,
+            'db_username' => $this->db_username,
             'db_password' => $this->db_password,
             'db_port' => $this->db_port,
             'db_prefix' => $this->db_prefix,
+            'admin_email' => $this->admin_email,
+            'admin_password' => bcrypt($this->admin_password),
             'created_by' => Auth()->id(),
         ]);
-        $dbName = $this->db_name;
         // Use raw SQL to create the database
-        $result = DB::statement("CREATE DATABASE IF NOT EXISTS `$dbName`");
-
-        // Update the database configuration dynamically
-        Config::set('database.connections.dynamic', [
-            'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => $dbName,
-            'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', ''),
-        ]);
-
-        // Reconnect to the new database
-        DB::purge('dynamic');
-        DB::reconnect('dynamic');
-
-        // Run migrations on the new database
-        Artisan::call('migrate', [
-            '--database' => 'dynamic',
-            '--path' => 'database/migrations/migration2'  // Replace with actual migration file path
-        ]);
+        $result = DB::statement("CREATE DATABASE IF NOT EXISTS `$this->db_name`");
+        MigrateAndSeedJob::dispatch($this->db_d, $this->db_username, $this->db_password, $this->db_name, $this->db_host, $this->db_port)->onQueue('migrateAndSeed');
         if ($result){
-            session()->flash('success', 'Database Created Successfully.');
+            session()->flash('success', 'Database created and migration/seeding started!');
             $this->resetInputFields();
         }
     }

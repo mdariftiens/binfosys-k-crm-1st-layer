@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('db_prefix')->nullable(); // db_prefix
             $table->string('admin_email'); // admin_email
             $table->string('admin_password'); // admin_password
+            $table->string('migration_progress')->nullable(); // migration_progress
+            $table->string('seed_progress')->nullable(); // seed_progress
             $table->unsignedBigInteger('created_by')->nullable(); // created_by
             $table->unsignedBigInteger('updated_by')->nullable(); // updated_by
             $table->timestamps(); // created_at, updated_at

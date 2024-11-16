@@ -38,7 +38,6 @@ class MigrateAndSeedJob implements ShouldQueue
      */
     public function handle(): void
     {
-        //dd($this->db_d, $this->db_username, $this->db_password, $this->db_name, $this->db_host, $this->db_port);
         // Configure database connection
         config(['database.connections.dynamic' => [
             'driver' => $this->db_d,
@@ -52,6 +51,29 @@ class MigrateAndSeedJob implements ShouldQueue
         DB::purge('dynamic');
         DB::reconnect('dynamic');
 
-        Artisan::call('migrate', ['--database' => 'dynamic', '--path' => 'database/migrations/migration2']);
+        DB::setDefaultConnection('dynamic');
+
+        // Run the migrations for the dynamic database
+        Artisan::call('migrate', [
+            '--database' => 'dynamic',
+            '--path' => 'database/migrations/migration2',
+            '--force' => true,
+        ]);
+
+        // Run the seeder for the dynamic database
+        Artisan::call('db:seed', [
+            '--class' => 'Database\\Seeders\\SecondLayerDatabaseSeeder',
+            '--force' => true,
+        ]);
+
+        DB::setDefaultConnection('mysql');
+        DB::purge('dynamic');
+
+        DB::table('databases')
+            ->where('db_name', $this->db_name)
+            ->update(['migration_progress' => 'Complete']);
+        DB::table('databases')
+            ->where('db_name', $this->db_name)
+            ->update(['seed_progress' => 'Complete']);
     }
 }

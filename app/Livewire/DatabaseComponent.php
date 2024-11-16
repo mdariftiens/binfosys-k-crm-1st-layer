@@ -46,6 +46,12 @@ class DatabaseComponent extends Component
         // Use raw SQL to create the database
         $result = DB::statement("CREATE DATABASE IF NOT EXISTS `$this->db_name`");
         MigrateAndSeedJob::dispatch($this->db_d, $this->db_username, $this->db_password, $this->db_name, $this->db_host, $this->db_port)->onQueue('migrateAndSeed');
+        DB::table('databases')
+            ->where('db_name', $this->db_name)
+            ->update(['migration_progress' => 'In Progress']);
+        DB::table('databases')
+            ->where('db_name', $this->db_name)
+            ->update(['seed_progress' => 'In Progress']);
         if ($result){
             session()->flash('success', 'Database created and migration/seeding started!');
             $this->resetInputFields();

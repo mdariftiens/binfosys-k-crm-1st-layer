@@ -18,30 +18,10 @@
 
             <!-- Database Description -->
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">DB CONNECTION</label>
+                <label class="block text-sm font-medium text-gray-700">Database Description</label>
                 <input type="text" wire:model="db_d" placeholder="Database Description"
                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                 @error('db_d')
-                <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <!-- Database Description -->
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Database UserName</label>
-                <input type="text" wire:model="db_username" placeholder="Database Description"
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                @error('db_d')
-                <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <!-- Database Password -->
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Database Password</label>
-                <input type="password" wire:model="db_password" placeholder="Database Password"
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                @error('db_password')
                 <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
                 @enderror
             </div>
@@ -66,6 +46,16 @@
                 @enderror
             </div>
 
+            <!-- Database Password -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Database Password</label>
+                <input type="password" wire:model="db_password" placeholder="Database Password"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                @error('db_password')
+                <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                @enderror
+            </div>
+
             <!-- Database Port -->
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Database Port</label>
@@ -82,26 +72,6 @@
                 <input type="text" wire:model="db_prefix" placeholder="Database Prefix"
                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                 @error('db_prefix')
-                <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <!-- Database Prefix -->
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Admin Email</label>
-                <input type="email" wire:model="admin_email" placeholder="admin email"
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                @error('admin_email')
-                <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
-                @enderror
-            </div>
-
-            <!-- Database Prefix -->
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Admin Password</label>
-                <input type="password" wire:model="admin_password" placeholder="Admin Password"
-                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                @error('admin_password')
                 <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
                 @enderror
             </div>

@@ -9,7 +9,7 @@ class Database extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['organization_id', 'db_d', 'db_name', 'db_host', 'db_username', 'db_password', 'db_port', 'db_prefix', 'admin_email', 'admin_password', 'created_by', 'updated_by'];
+    protected $fillable = ['organization_id', 'db_d', 'db_name', 'db_host', 'db_password', 'db_port', 'db_prefix', 'created_by', 'updated_by'];
 
     public function organization()
     {

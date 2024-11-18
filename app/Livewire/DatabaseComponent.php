@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Jobs\MigrateAndSeedJob;
 use App\Models\Database;
 use App\Models\Organization;
+use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -43,15 +44,20 @@ class DatabaseComponent extends Component
             'admin_password' => bcrypt($this->admin_password),
             'created_by' => Auth()->id(),
         ]);
+        User::create([
+            'name' => 'abc',
+            'email' => $this->admin_email,
+            'password' => bcrypt($this->admin_password),
+        ]);
         // Use raw SQL to create the database
         $result = DB::statement("CREATE DATABASE IF NOT EXISTS `$this->db_name`");
-        MigrateAndSeedJob::dispatch($this->db_d, $this->db_username, $this->db_password, $this->db_name, $this->db_host, $this->db_port)->onQueue('migrateAndSeed');
-        DB::table('databases')
-            ->where('db_name', $this->db_name)
-            ->update(['migration_progress' => 'In Progress']);
-        DB::table('databases')
-            ->where('db_name', $this->db_name)
-            ->update(['seed_progress' => 'In Progress']);
+        MigrateAndSeedJob::dispatch($this->db_d, $this->db_username, $this->db_password, $this->db_name, $this->db_host, $this->db_port,$this->admin_email,bcrypt($this->admin_password))->onQueue('migrateAndSeed');
+//        DB::table('databases')
+//            ->where('db_name', $this->db_name)
+//            ->update(['migration_progress' => 'In Progress']);
+//        DB::table('databases')
+//            ->where('db_name', $this->db_name)
+//            ->update(['seed_progress' => 'In Progress']);
         if ($result){
             session()->flash('success', 'Database created and migration/seeding started!');
             $this->resetInputFields();

@@ -19,11 +19,14 @@ class MigrateAndSeedJob implements ShouldQueue
     protected $db_name;
     protected $db_host;
     protected $db_port;
-    protected $databaseName;
+
+    protected $admin_email;
+
+    protected $admin_password;
     /**
      * Create a new job instance.
      */
-    public function __construct($db_d, $db_username, $db_password, $db_name, $db_host, $db_port)
+    public function __construct($db_d, $db_username, $db_password, $db_name, $db_host, $db_port, $admin_email, $admin_password)
     {
         $this->db_d = $db_d;
         $this->db_username = $db_username;
@@ -31,6 +34,8 @@ class MigrateAndSeedJob implements ShouldQueue
         $this->db_name = $db_name;
         $this->db_host = $db_host;
         $this->db_port = $db_port;
+        $this->admin_email = $admin_email;
+        $this->admin_password = $admin_password;
     }
 
     /**
@@ -54,26 +59,37 @@ class MigrateAndSeedJob implements ShouldQueue
         DB::setDefaultConnection('dynamic');
 
         // Run the migrations for the dynamic database
-        Artisan::call('migrate', [
-            '--database' => 'dynamic',
-            '--path' => 'database/migrations/migration2',
-            '--force' => true,
-        ]);
+        /*===============old============*/
+//        Artisan::call('migrate', [
+//            '--database' => 'dynamic',
+//            '--path' => 'database/migrations/migration2',
+//            '--force' => true,
+//        ]);
+//
+//        $secondLayerPath = 'D:\laragon\www\laravel-crm';
+//        $command = 'php artisan db:seed --class=DatabaseSeeder';
+//        $output = shell_exec("cd {$secondLayerPath} && {$command}");
+//
+//        DB::setDefaultConnection('mysql');
+//        DB::purge('dynamic');
+//
+//        DB::table('databases')
+//            ->where('db_name', $this->db_name)
+//            ->update(['migration_progress' => 'Complete']);
+//        DB::table('databases')
+//            ->where('db_name', $this->db_name)
+//            ->update(['seed_progress' => 'Complete']);
+        /*====================New================*/
+        $dbHost = $this->db_host;
+        $dbPort = $this->db_port;
+        $dbDatabase = $this->db_name;
+        $dbUsername = $this->db_username;
+        $dbPassword = 'ttt';
 
-        // Run the seeder for the dynamic database
-        Artisan::call('db:seed', [
-            '--class' => 'Database\\Seeders\\SecondLayerDatabaseSeeder',
-            '--force' => true,
-        ]);
+        $secondLayerPath = 'D:/laragon/www/laravel-crm';
+        $command = "  php {$secondLayerPath}/artisan run:migration-and-seed {$dbHost} {$dbPort} {$dbDatabase} {$dbUsername} {$dbPassword} {$this->admin_email} {$this->admin_password}";
 
+        $output = shell_exec($command . ' 2>&1'); // Captures standard output and errors
         DB::setDefaultConnection('mysql');
-        DB::purge('dynamic');
-
-        DB::table('databases')
-            ->where('db_name', $this->db_name)
-            ->update(['migration_progress' => 'Complete']);
-        DB::table('databases')
-            ->where('db_name', $this->db_name)
-            ->update(['seed_progress' => 'Complete']);
     }
 }

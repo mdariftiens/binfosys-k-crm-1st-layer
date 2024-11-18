@@ -26,8 +26,7 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/",
-            "Webkul\\Installer\\": "packages/Webkul/Installer/src"
+            "Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {

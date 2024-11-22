@@ -93,6 +93,8 @@
                     <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Name</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Host</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Port</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Migration</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Seed</th>
                     <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
                 </tr>
                 </thead>
@@ -106,6 +108,8 @@
                         <td class="px-4 py-3 text-sm text-gray-700">{{ $database->db_name }}</td>
                         <td class="px-4 py-3 text-sm text-gray-700">{{ $database->db_host }}</td>
                         <td class="px-4 py-3 text-sm text-gray-700">{{ $database->db_port }}</td>
+                        <td class="px-4 py-3 text-sm text-gray-700">{{ $database->migration_progress ?? '-' }}</td>
+                        <td class="px-4 py-3 text-sm text-gray-700">{{ $database->seed_progress ?? '-' }}</td>
                         <td class="px-4 py-3 text-sm text-gray-700 space-x-2">
                             <a href="{{ route('databases-edit', $database->id) }}"
                                     class="px-3 py-1 text-sm bg-blue-600 text-black rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">

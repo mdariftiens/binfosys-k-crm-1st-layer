@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 class MigrateAndSeedJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $db_d;
+    protected $db_driver;
     protected $db_username;
     protected $db_password;
     protected $db_name;
@@ -26,9 +26,9 @@ class MigrateAndSeedJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct($db_d, $db_username, $db_password, $db_name, $db_host, $db_port, $admin_email, $admin_password)
+    public function __construct($db_driver, $db_username, $db_password, $db_name, $db_host, $db_port, $admin_email, $admin_password)
     {
-        $this->db_d = $db_d;
+        $this->db_driver = $db_driver;
         $this->db_username = $db_username;
         $this->db_password = $db_password;
         $this->db_name = $db_name;
@@ -45,7 +45,7 @@ class MigrateAndSeedJob implements ShouldQueue
     {
         // Configure database connection
         config(['database.connections.dynamic' => [
-            'driver' => $this->db_d,
+            'driver' => $this->db_driver,
             'host' => $this->db_host,
             'port' => $this->db_port,
             'database' => $this->db_name,
@@ -86,10 +86,12 @@ class MigrateAndSeedJob implements ShouldQueue
         $dbUsername = $this->db_username;
         $dbPassword = 'ttt';
 
-        $secondLayerPath = 'D:/laragon/www/laravel-crm';
-        $command = "  php {$secondLayerPath}/artisan run:migration-and-seed {$dbHost} {$dbPort} {$dbDatabase} {$dbUsername} {$dbPassword} {$this->admin_email} {$this->admin_password}";
+        $secondLayerPath = env("SECOND_LAYER_PROJECT_LOCATION");
 
+        $command = "  php {$secondLayerPath}/artisan run:migration-and-seed {$dbHost} {$dbPort} {$dbDatabase} {$dbUsername} {$dbPassword} {$this->admin_email} {$this->admin_password}";
+        echo $command;
         $output = shell_exec($command . ' 2>&1'); // Captures standard output and errors
+        echo $output;
         DB::setDefaultConnection('mysql');
     }
 }

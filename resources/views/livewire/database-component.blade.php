@@ -19,9 +19,9 @@
             <!-- Database Description -->
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Database Description</label>
-                <input type="text" wire:model="db_d" placeholder="Database Description"
+                <input type="text" wire:model="db_driver" placeholder="Database Description"
                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                @error('db_d')
+                @error('db_driver')
                 <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
                 @enderror
             </div>
@@ -46,10 +46,19 @@
                 @enderror
             </div>
 
+            <!-- Database username -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Database username</label>
+                <input type="text" wire:model="db_username" placeholder="Database username"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                @error('db_username')
+                <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                @enderror
+            </div>
             <!-- Database Password -->
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Database Password</label>
-                <input type="password" wire:model="db_password" placeholder="Database Password"
+                <input type="text" wire:model="db_password" placeholder="Database Password"
                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                 @error('db_password')
                 <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
@@ -72,6 +81,26 @@
                 <input type="text" wire:model="db_prefix" placeholder="Database Prefix"
                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                 @error('db_prefix')
+                <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <!-- Database Prefix -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">admin email</label>
+                <input type="text" wire:model="admin_email" placeholder="admin email"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                @error('admin_email')
+                <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                @enderror
+            </div>
+
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">admin_password</label>
+                <input type="text" wire:model="admin_password" placeholder="admin_password"
+                       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                @error('admin_password')
                 <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
                 @enderror
             </div>
@@ -104,7 +133,7 @@
                 @foreach($databases as $database)
                     <tr class="hover:bg-gray-50 border-b text-center">
                         <td class="px-4 py-3 text-sm text-gray-700">{{ $database->organization->name }}</td>
-                        <td class="px-4 py-3 text-sm text-gray-700">{{ $database->db_d }}</td>
+                        <td class="px-4 py-3 text-sm text-gray-700">{{ $database->db_driver }}</td>
                         <td class="px-4 py-3 text-sm text-gray-700">{{ $database->db_name }}</td>
                         <td class="px-4 py-3 text-sm text-gray-700">{{ $database->db_host }}</td>
                         <td class="px-4 py-3 text-sm text-gray-700">{{ $database->db_port }}</td>

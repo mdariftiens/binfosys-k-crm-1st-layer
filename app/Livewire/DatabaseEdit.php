@@ -11,13 +11,13 @@ class DatabaseEdit extends Component
 {
     public $organizations;
     public $database;
-    public $organization_id, $db_d, $db_name, $db_host, $db_password, $db_port, $db_prefix;
+    public $organization_id, $db_driver, $db_name, $db_host, $db_password, $db_port, $db_prefix;
 
     public function mount(Database $id)
     {
         $this->database = $id;
         $this->organization_id = $id->organization_id;
-        $this->db_d = $id->db_d;
+        $this->db_driver = $id->db_driver;
         $this->db_name = $id->db_name;
         $this->db_host = $id->db_host;
         $this->db_password = $id->db_password;
@@ -29,7 +29,7 @@ class DatabaseEdit extends Component
     {
         $this->validate([
             'organization_id' => 'required',
-            'db_d' => 'required',
+            'db_driver' => 'required',
             'db_name' => 'required',
             'db_host' => 'required',
             'db_password' => 'required',
@@ -38,7 +38,7 @@ class DatabaseEdit extends Component
         ]);
         $this->database->update([
             'organization_id' => $this->organization_id,
-            'db_d' => $this->db_d,
+            'db_driver' => $this->db_driver,
             'db_name' => $this->db_name,
             'db_host' => $this->db_host,
             'db_password' => $this->db_password,

@@ -17,9 +17,9 @@
         <!-- Database Description -->
         <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700">Database Description</label>
-            <input type="text" wire:model="db_d" placeholder="Database Description"
+            <input type="text" wire:model="db_driver" placeholder="Database Description"
                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            @error('db_d')
+            @error('db_driver')
             <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
             @enderror
         </div>

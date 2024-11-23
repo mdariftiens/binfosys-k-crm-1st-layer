@@ -32,7 +32,7 @@ class DatabaseComponent extends Component
             'admin_email' => 'required',
             'admin_password' => 'required',
         ]);
-        Database::create([
+        $database = Database::create([
             'organization_id' => $this->organization_id,
             'db_driver' => $this->db_driver,
             'db_name' => $this->db_name,
@@ -45,11 +45,14 @@ class DatabaseComponent extends Component
             'admin_password' => Hash::make($this->admin_password),
             'created_by' => Auth()->id(),
         ]);
+
         $adminPassword = ($this->admin_password);
         User::create([
             'name' => 'abc',
             'email' => $this->admin_email,
             'password' => $adminPassword,
+            'database_id' => $database->id,
+            'role_id' => 1,
         ]);
 
         // Use raw SQL to create the database

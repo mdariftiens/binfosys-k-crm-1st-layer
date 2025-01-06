@@ -38,4 +38,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/contacts/{id}/edit', \App\Livewire\ContactEdit::class)->name('contact-edit');
     Route::get('/databases', DatabaseComponent::class)->name('databases');
     Route::get('/databases/{id}/edit', \App\Livewire\DatabaseEdit::class)->name('databases-edit');
+
+    Route::get('/packages', \App\Livewire\PackageComponent::class)->name('packages');
+    Route::get('/packages/{id}/edit', \App\Livewire\PackageEdit::class)->name('package-edit');
 });

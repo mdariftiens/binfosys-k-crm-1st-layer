@@ -21,8 +21,7 @@ class ContactComponent extends Component
     public function store()
     {
         $this->validate([
-            'organization_id' => 'required',
-            'name' => 'required',
+            'package_name' => 'required',
             'email' => 'required',
             'phone' => 'required',
             'designation' => 'required',
